@@ -98,6 +98,8 @@ Topics covered in next 3 classes:
 	\item Efficient way to solve $Ax=b$ using computers
 \end{enumerate}
 
+\subsection{Geometric interpretation}
+
 \paragraph{Example} Graphical method:
 
 Row interpretation (plot lines on coordinate system):
@@ -677,7 +679,7 @@ From last time:
 
 \begin{enumerate}
 	\item Introduce zeros below $a_{11}$ by subtracting multiples of row 1
-	\item Use multipliers $l = \frac{a_i1}{a_11}$
+	\item Use multipliers $l = \frac{a_{i1}}{a_{11}}$
 	\item Repeat 1 and 2 for $a_{22}^*,a_{33}^*$, ...
 \end{enumerate}
 
@@ -932,6 +934,74 @@ What if we switch the rows?
 	\end{bmatrix}
 \]
 
+\subsection{Finite precision}
+
+The computer represents a floating point number with a sign, exponent, and digits for the value itself. When we are talking about $n$-digit arithmetic, we are referring to the number of digits storing the value.
+
+\[
+	\begin{matrix}
+		U = \text{max exponent} \\
+		L = \text{lowest exponent} \\
+		P = \text{mantissa number of digits} \\
+		\beta = \text{base} \\
+	\end{matrix}
+\]
+
+For example, for $L=-1, U=1, p=2$ and $\beta = 10$:
+
+\[
+	\text{(sign)} d_0 . d_1 d_2 ... d_p \times 10^{\text{exponent}}
+\]
+
+\[
+	\begin{matrix}
+		\text{largest} & 9.9 \times 10^1 = 99\\
+		\text{smallest (non-zero)} & 1.0 \times 10^{-1} = 0.1
+	\end{matrix}
+\]
+
+Examples of real values in floating point systems:
+
+\[
+	\begin{matrix}
+		& \beta & P & L & U \\
+		\text{IEEE} & 2 & 24 & -126 & 123 & \text{single} \\
+					& 2 & 53 & -1022 & 1023 & \text{double}\\ 
+		\text{HP}   & 10 & 12 & -499 & 499
+	\end{matrix}
+\]
+
+What is the total number of floating point numbers?
+
+\[
+	2(\beta - 1) \beta^{p-1} (u-l+1) + 1
+\]
+
+Largest representable number:
+
+\[
+	(\beta - 1).(\beta - 1)...(\beta - 1) \cdot \beta^U
+\]
+
+Smallest number (absolute value):
+
+\[
+	\beta^L (\text{underflow})
+\]
+
+\paragraph{Machine precision} Note that the difference between the real number and the floating point number chosen depends on exponent.
+
+\[
+	\forall x \in R, \exists \text{fl}(x) = \hat{x} \text{ such that } \abs{x-\hat{x}} \leq \sum \abs{x}
+\]
+
+Note that this is not really true for all $x \in R$ -- only within a certain range. $\epsilon_{\text{mach}}$ is the largest number s.t. fl($1 + \epsilon_{\text{mach}}) > 1$.
+
+Floating point numbers are not associative:
+
+\[
+	A+(B+C)) \not= (A+B)+C
+\]
 
 
 \end{document}
