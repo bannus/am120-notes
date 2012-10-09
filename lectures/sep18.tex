@@ -1,0 +1,144 @@
+\section{September 18 Lecture}
+
+To review: solving $Ax=b$:
+\begin{enumerate}
+	\item Find $LU=A$
+	\item Solve for $c$ in $Lc=b$ (forward substitution)
+	\item Solve for $x$ in $Ux=c$ (back-subst)
+\end{enumerate}
+
+Multipliers to find $U$ are entries of $L$.
+
+What is the \# of operations needed to get $LU$ factorization?
+
+\[
+	\approx {n^3 - n \over 3}
+\]
+
+\paragraph{Forward substitution} Number of operations:
+
+$(n-1) + (n-2) + ... (1) \approx O(n^2)$
+
+Back substitution is similar process (also $O(n^2)$). Most time consuming place is step 1.
+
+\paragraph{Algorithm Failure} This $Ax=b$:
+
+\[
+	\begin{bmatrix}
+		0 & 1 \\ 1 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ 1
+	\end{bmatrix}
+\]
+
+has solution $\begin{bmatrix}
+	1 \\ 1
+\end{bmatrix}$. However, our algorithm won't find the answer because it can't switch rows. If the algorithm fails we have two options:
+
+\begin{enumerate}
+	\item We need to rearrange rows
+	\item No solution
+	\item Infinitely many solutions
+\end{enumerate}
+
+Example of (2):
+
+\[
+	\begin{bmatrix}
+		0 & 1 \\ 0 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ 1
+	\end{bmatrix}
+\]
+
+Example of (3):
+
+\[
+	\begin{bmatrix}
+		0 & 1 \\ 0 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ 1
+	\end{bmatrix}
+\]
+
+\paragraph{Fact} $\det(A) = \det(LU) = \det(L)\det(U)$
+
+\[
+	\det(U) = \prod_{i=1}^n u_{ii}
+\]
+
+\paragraph{Example} Consider this:
+
+\[
+	\begin{bmatrix}
+		0.0001 & 1 \\ 1 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ 2
+	\end{bmatrix}
+\]
+
+\[
+	\begin{bmatrix}
+		0.0001 & 1 \\ 0 & -9999
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ -9998
+	\end{bmatrix}
+\]
+
+\[
+	\Rightarrow x_2 = {9998 \over 9999}
+\]
+
+\[
+	0.0001 x_1 + {9998 \over 9999} = 1
+\]
+
+\[
+	\Rightarrow x_1= {10000 \over 9999}
+\]
+
+If we do all of this with limited precision (say 3 digits), we do the following:
+
+\[
+	\begin{bmatrix}
+		0.0001 & 1 \\ 0 & -10^4
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ -10^4
+	\end{bmatrix}
+\]
+
+\[
+	\Rightarrow x_2 = 1
+\]
+
+Then if we use the first equation, we get
+
+\[
+	\Rightarrow x_1 = 0
+\]
+
+This is called \textbf{catastrophic cancellation}.

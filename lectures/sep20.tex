@@ -1,0 +1,147 @@
+\section{September 20 Lecture}
+First part of AM120 is to solve $Ax=b$ for arbitrary $\norm{A} = n$.
+
+\[
+	u_{11} = a_{11}, u_{22} = a_{22} 
+\]
+
+Pseudocode did not have 0s in $L$ and $U$. Second part of code is given $L$ and $b$, should output $c$. Third part takes $U$ and $c$ and outputs $x$.
+
+Assignment 2 Due on Monday morning (9am).
+
+This Doolittle algorithm can fail:
+\begin{enumerate}
+	\item If there is a pivot = 0
+	\begin{enumerate}
+		\item System is singular $\Rightarrow \det(A) = 0$. This means there is no solution or infinitely many solutions.
+		\item We can exchange rows and `cure' system.
+		\[
+			\det(A) = \det(L) \det(U) = 1 \prod_{k=1}^n u_{kk}
+		\]
+	\end{enumerate}
+\end{enumerate}
+
+
+\paragraph{Example} From last class:
+
+\[
+	\begin{bmatrix}
+		0.0001 & 1 \\ 1 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		1 \\ 2
+	\end{bmatrix}
+\]
+
+This had true solution:
+
+\[
+		x_1 = {10000 \over 9999}, x_2 = {9998 \over 9999}
+\]
+
+But with limited precision (three digit arithmetic), we got:
+
+\[
+		x_1 = 0, x_2 = 1
+\]
+
+What if we switch the rows?
+
+\[
+	\begin{bmatrix}
+		1 & 1 \\ 0.0001 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		2 \\ 1
+	\end{bmatrix}
+\]
+
+\[
+	\begin{bmatrix}
+		1 & 0 \\ 10^{-4} & 1
+	\end{bmatrix}_L
+	\begin{bmatrix}
+		1 & 1 \\ 0 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} =
+	\begin{bmatrix}
+		2 \\ 1 - 2 \cdot 10^{-4}t
+	\end{bmatrix}
+\]
+
+\subsection{Finite precision}
+
+The computer represents a floating point number with a sign, exponent, and digits for the value itself. When we are talking about $n$-digit arithmetic, we are referring to the number of digits storing the value.
+
+\[
+	\begin{matrix}
+		U = \text{max exponent} \\
+		L = \text{lowest exponent} \\
+		P = \text{mantissa number of digits} \\
+		\beta = \text{base} \\
+	\end{matrix}
+\]
+
+For example, for $L=-1, U=1, p=2$ and $\beta = 10$:
+
+\[
+	\text{(sign)} d_0 . d_1 d_2 ... d_p \times 10^{\text{exponent}}
+\]
+
+\[
+	\begin{matrix}
+		\text{largest} & 9.9 \times 10^1 = 99\\
+		\text{smallest (non-zero)} & 1.0 \times 10^{-1} = 0.1
+	\end{matrix}
+\]
+
+Examples of real values in floating point systems:
+
+\[
+	\begin{matrix}
+		& \beta & P & L & U \\
+		\text{IEEE} & 2 & 24 & -126 & 123 & \text{single} \\
+					& 2 & 53 & -1022 & 1023 & \text{double}\\ 
+		\text{HP}   & 10 & 12 & -499 & 499
+	\end{matrix}
+\]
+
+What is the total number of floating point numbers?
+
+\[
+	2(\beta - 1) \beta^{p-1} (u-l+1) + 1
+\]
+
+Largest representable number:
+
+\[
+	(\beta - 1).(\beta - 1)...(\beta - 1) \cdot \beta^U
+\]
+
+Smallest number (absolute value):
+
+\[
+	\beta^L (\text{underflow})
+\]
+
+\paragraph{Machine precision} Note that the difference between the real number and the floating point number chosen depends on exponent.
+
+\[
+	\forall x \in R, \exists \text{fl}(x) = \hat{x} \text{ such that } \abs{x-\hat{x}} \leq \sum \abs{x}
+\]
+
+Note that this is not really true for all $x \in R$ -- only within a certain range. $\epsilon_{\text{mach}}$ is the largest number s.t. fl($1 + \epsilon_{\text{mach}}) > 1$.
+
+Floating point numbers are not associative:
+
+\[
+	A+(B+C)) \not= (A+B)+C
+\]

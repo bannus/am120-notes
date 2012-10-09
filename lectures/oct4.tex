@@ -1,0 +1,208 @@
+\section{October 4 Lecture}
+
+Use `$\backslash$' operator in MATLAB from now on unless we specify otherwise. Assignment 4 is now due Tuesday in class.
+
+\paragraph{Last class} We discussed vector spaces, with the intention of being able to solve any linear algebra problem, whether it be overdetermined or underdetermined. Vector spaces have two operations, addition and scalar multiplication, with 8 axioms. Note: no notion of proximity or distance (no topology).
+
+\paragraph{Subspace} A non-empty subset of a vector space. Closed under addition and scalar multiplication. ($x+y \in$ subspace, $ax \in$ subspace).
+
+\[
+	\begin{matrix}
+		\bbR^2 & \text{smallest sub-space} & \text{\{zero\} element} \\
+		 & \begin{bmatrix}
+		 	0 \\ 0
+		 \end{bmatrix} \\
+		 & \text{largest sub-space} & \bbR^2 \\\hline
+		 \bbR^3 & \begin{bmatrix}
+		 	0 \\ 0 \\0 
+		 \end{bmatrix} \\
+		 & \text{planes and lines that go through } \begin{bmatrix}
+		 	0 \\ 0 \\ 0
+		 \end{bmatrix} \text{ are subspaces.}
+	\end{matrix}
+\]
+
+\[
+	A = \begin{bmatrix}
+		1 & 0 \\ 5 & 4 \\ 2 & 4
+	\end{bmatrix},
+	x = \begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix}, 
+	Ax = \begin{bmatrix}
+		1 \\ 5 \\ 2 
+	\end{bmatrix} x_1 + 
+	\begin{bmatrix}
+		0 \\ 4 \\ 4
+	\end{bmatrix} x_2
+\]
+
+Column spaces of $A$ (denoted $C(A)$) is the spaces that contains all linear combinations of the columns of $A$.
+
+If we have a matrix $\begin{bmatrix}A\end{bmatrix}_{M \times N}$ (with $m$ rows, $n$ columns), then $C(A) \in \bbR^m$.
+
+$b$ and $\tilde{b} \in C(A), \exists x$ and $\tilde{x}$
+
+\[
+	\begin{matrix}
+		Ax = b & A(x+\tilde{x}) = b + \tilde{b}\\
+		A \tilde{x}  = \tilde{b} \\
+		c b & A(cx) = cAx = cb
+	\end{matrix}
+\]	
+
+Null space:
+
+\[
+	A = \begin{bmatrix}
+		1 & 0 \\ 0 & 1 \\ 0 & 0
+	\end{bmatrix}
+\]	
+
+Null space of $A$ consists of all vectors $x$ such that $Ax = 0$, denoted $N(A) \in \bbR^n$.
+
+\[
+	Ax = \begin{bmatrix}
+		1 \\ 5 \\ 2
+	\end{bmatrix} x_1 + 
+	\begin{bmatrix}
+		0 \\ 4 \\ 4
+	\end{bmatrix} x_2 = 
+	\begin{bmatrix}
+		0 \\ 0 \\ 0
+	\end{bmatrix}
+\]
+
+\[
+	\begin{bmatrix}
+		x_1 \\ x_2
+	\end{bmatrix} \in N(A),
+	\begin{bmatrix}
+		0 \\ 0
+	\end{bmatrix} \in N(A)
+\]
+
+\paragraph{Theorem} If zero is the only element of $N(A) \Rightarrow$ columns of $A$ are linearly independent.
+
+If $N(A) = \{0\}$ and $A$ is a square matrix $\Rightarrow \exists! x$ such that $Ax = b$ for any $b$.
+
+Basis for a \textbf{vector space} $V \{v_k\}$.
+
+\begin{enumerate}
+	\item $v_k$'s are linearly independent
+	\item they span $V$ (any $v \in V$ is a linear combination of the basis vectors $\{v_k\}$)
+\end{enumerate}
+
+\[
+	\Rightarrow \exists! \text{ way to represent any element of } V
+\]
+
+\[
+	text{dim}(V) = \text{ \# of basis vectors}
+\]
+
+The \textbf{complete solution} of a linear system of equations
+
+\[
+	 Ax=b \text{ is given by } x = x_p + x_n \text{ (if it exists)}
+\]
+
+where
+
+\[
+	Ax_p = b and Ax_n = 0
+\]
+
+\[
+	A(x_p + x_n) = b + 0 = b
+\]
+
+\[
+	\begin{matrix}
+		A = \begin{bmatrix}
+			1 & 2 \\ 2 & 4
+		\end{bmatrix} &
+		C(A) = k \begin{bmatrix}
+			1 \\ 2
+		\end{bmatrix} \text{ line}\\
+		& N(A) = d \begin{bmatrix}
+			2 \\ -1
+		\end{bmatrix} \text{ line}
+	\end{matrix}
+\]
+
+\[
+	\begin{bmatrix}
+		1 & 2 \\ 2 & 4
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 & x_2
+	\end{bmatrix} = Ax  = b = \begin{bmatrix}
+		3 \\ 6
+	\end{bmatrix}
+\]
+
+\[
+	x = \begin{bmatrix}
+		3 \\ 0
+	\end{bmatrix}_{x_{p}} + d \begin{bmatrix}
+		2 \\ -1
+	\end{bmatrix}_{x_{n}}
+\]
+
+\paragraph{Theorem}: For any $m \times n$ matrix $A \exists P$ (permutation) and $L$ lower triangular matrix and an $m \times n$ Echelon matrix $U$ such that $PA = LU$
+
+\[
+	A = \begin{bmatrix}
+		1 & 3 & 3 & 2 \\
+		2 & 6 & 9 & 7 \\
+		-1 & -3 & 3 & 4
+	\end{bmatrix}
+\]
+
+Let's find $LU$:
+
+\[
+	L = \begin{bmatrix}
+		1 & 0 & 0\\
+		2 & 1 & 0\\
+		-1 & 2 & 1 \\
+	\end{bmatrix},
+	U = \begin{bmatrix}
+		1 & 3 & 3 & 2 \\
+		0 & 0 & 3 & 3 \\
+		0 & 0 & 0 & 0
+	\end{bmatrix}
+\]
+
+Note that $L$ is $m \times m$ square, and $U$ is also $m \times n$. Also, we see that $U$ has 2 LI columns.
+
+We already knew that the column space of $A$ lives in $\bbR^3$, so one column had to be dependent. Now we know that only two vectors in the 4 columns are LI, so the column space is a plane. Null space is also a plane, but it lives in $\bbR^4$.
+
+Another example:
+
+\[
+	\begin{matrix}
+		(t_1, y_1)' = (0,0) \\
+		(t_2, y_2) = (2,1)\\
+		\begin{bmatrix}
+			1 & 0 \\ 1 & 2
+		\end{bmatrix}_A
+		\begin{bmatrix}
+			x_1 \\ x_2
+		\end{bmatrix} = 
+		\begin{bmatrix}
+			0 \\ 1
+		\end{bmatrix}
+	\end{matrix}
+\]
+
+\[
+	\begin{matrix}
+		y = P(t) = x_1 + x_2 t \\
+		y_1 = P(t_1) = x_1 + x_2 t_1 \\
+		y_2 = P(t_2) = x_1 + x_2 t_2
+	\end{matrix}
+\]
+
+We get $P = {1 \over 2 } t$

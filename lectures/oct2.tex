@@ -1,0 +1,149 @@
+\section{October 2 Lecture}
+
+\paragraph{Last class} Condition numbers. Blah blah blah blah blah.
+
+We have implemented solving $Ax = b$ the same way that MATLAB's ``$\backslash$'' function works. Now we move on to other things.
+
+\subsection{Over/underconstrained Systems}
+
+\[
+	-{d^2 u \over dx^2} = f(x), u(0) = \alpha, u(1) = \beta
+\]
+
+Approximation of second derivative at discrete point $x_i$:
+
+\[
+	-{d^2 u (x_i) \over dx^2} \approx {u(x_{i+1}) - 2u(x_i)+u(x_{i-1})) \over h^2}
+\]
+
+\[
+	h^2 f(x_i) \approx u(x_{i+1}) - 2u(x_i)+u(x_{i-1}))
+\]
+
+At the boundary:
+
+\[
+	h^2 f(x_1) \approx u(x_{2}) - 2u(x_1)+\alpha
+\]
+
+We got this from this, ignoring smaller terms:
+
+\[
+	u(x+h) = u(x) + {du \over dx}(x) h + {d^2u \over dx^2} {h^2 \over 2} + ... 
+\]
+
+This yields:
+
+\[
+	\begin{bmatrix}
+		2 & -1 \\
+		-1 & 2 & -1 \\
+		0 & -1 & 2 & -1 \\
+		 & & & & \ddots \\ \\ \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		u(x_1) \\ u(x_2) \\ \vdots \\ u(x_m)
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		-\alpha + f(x_1)h^2 \\ f(x_2)h^2\\ \vdots \\ -\beta + f(x_m)h^2
+	\end{bmatrix}
+\]
+
+Need to solve $Ax = b$. Now we are studying methods that have to do with matrices that are not square! First, we'll say $m < n$:
+
+\[
+	\begin{bmatrix}
+		& & & & & & \\
+		& & & A & & & \\
+		& & & & & &
+	\end{bmatrix}_{m \times n}
+	\begin{bmatrix}
+		\\ \\ \\ x \\ \\ \\ \\
+	\end{bmatrix}_{n \times 1} =
+	\begin{bmatrix}
+		\\ b \\ \\
+	\end{bmatrix}_{m \times 1}
+\]
+
+The left side of $A$ has an $m \times m$ square section. This is underdetermined, so there are many solutions. What is $m > n$:
+
+\[
+	\begin{bmatrix}
+		\\
+		 \\
+		& A &\\
+		\\
+		\\
+	\end{bmatrix}_{m \times n}
+	\begin{bmatrix}
+		\\ x \\ \\
+	\end{bmatrix}_{n \times 1} =
+	\begin{bmatrix}
+		\\ \\ \\ b \\ \\ \\ \\
+	\end{bmatrix}_{m \times 1}
+\]
+
+This is an overconstrained system, which may not have a solution. A real example of this is fitting a line to points in a least-squares sense. If each point is at $(t_i, y_i)$, and we want to find a line $y = mt + b$, then we solve:
+
+\[
+	\begin{bmatrix}
+		t_1 & 1\\
+		t_2 & 1\\
+		\vdots \\
+		t_m & 1
+	\end{bmatrix}_A
+	\begin{bmatrix}
+		m \\ b
+	\end{bmatrix}_x =
+	\begin{bmatrix}
+		y_1 \\ y_2 \\ \vdots \\ y_m
+	\end{bmatrix}_b
+\]
+
+\subsection{Vector Spaces}
+\textbf{Vector spaces} have two operations:
+
+[Example: $\bbR^n$]
+
+\begin{enumerate}
+	\item if $x,y \in \bbR^n$, $x+ y = z \in \bbR^n$
+	\item if $x \in \bbR^n, \alpha \in \bbR$, $\alpha x \in \bbR^n$
+\end{enumerate}
+
+These properties must hold:
+
+\textbf{Addition}: for $x, y, z \in \bbR^n$
+\begin{enumerate}
+	\item Commutativity: $x + y = y + x$
+	\item Associativity: $x + (y + z) = (x + y) + z$
+	\item $\exists!$\footnote{`!' indicates there exists some unique zero vector} zero vector s.t. $x + 0 = x \forall x \in \bbR^n$
+	\item $\exists! -x \in \bbR^n$ s.t. $x + (-x) = 0 \forall x \in \bbR^n$
+
+	\textbf{Scalar multiplication}
+
+	\item $1 x = x$ : 1 is scalar
+	\item $(c_1 c_2) x = c_1(c_2x)$
+	\item $c(x+y) = cx + cy$
+	\item $(c_1 + c_2)x = c_1 x + c_2 x$
+\end{enumerate}
+
+A \textbf{subspace} is a non-empty subset of a vector space that satisfies all these properties and all linear combinations stay in the subspace.
+
+\paragraph{Example}
+
+\[
+	\begin{bmatrix}
+		1 & 0 \\ 5 & 4 \\ 4 & 4 \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		u \\ v
+	\end{bmatrix} 
+	=
+	\begin{bmatrix}
+		1 \\ 5 \\ 4
+	\end{bmatrix} u
+	\begin{bmatrix}
+		0 \\ 4 \\ 4
+	\end{bmatrix} v
+\]

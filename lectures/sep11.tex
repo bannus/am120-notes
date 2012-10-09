@@ -1,0 +1,315 @@
+\section{September 11 Lecture}
+
+Last class:
+\begin{itemize}
+	\item Introduced first central problem of linear algebra: solving linear equations
+	\item Studied column and row interpretation of linear systems
+	\item Introduced Gaussian elimination
+\end{itemize}
+
+\paragraph{Example} (from previous class) Row/Column interpretation.
+
+\begin{tabular}{c}
+	2u + v + w = 5 \\
+	4u - 6v + 0 = -2 \\
+	-2u + 7v + 2w = 9
+\end{tabular}
+
+Row: Three planes intersecting. Column: linear combination of three vectors
+
+\[
+	A = \begin{bmatrix}
+		2 & 1 & 1 \\
+		4 & -6 & 0 \\
+		-2 & 7 & 2 \\
+	\end{bmatrix}
+\]
+
+We were trying to figure out how to transform matrix $A$ into an upper triangular matrix.
+
+\[
+	\begin{bmatrix}
+		1 & 0 & 0 \\
+		-2 & 1 & 0 \\
+		0 & 0 & 1 \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		5 \\ -2 \\ 9
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		5 \\ -12 \\ 9
+	\end{bmatrix}
+\]
+
+\[
+	\begin{bmatrix}
+		1 & 0 & 0 \\
+		-2 & 1 & 0 \\
+		0 & 0 & 1 \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		2 & 1 & 1 \\
+		4 & -6 & 0 \\
+		-2 & 7 & 2 \\
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		2 & 1 & 1 \\
+		0 & -8 & -2 \\
+		-2 & 7 & 2 \\
+	\end{bmatrix}
+\]
+
+\paragraph{Matrix operations} Addition is associative: $A+B+C = (A+B) + C = A+ (B+C)$
+
+Multiplication: dimension $m \times n$ multiplied by $n \times p$ results in $m \times p$ matrix. $AB \neq BA$.
+
+\[
+	\begin{bmatrix}
+		0 & 1 \\ 1 & 0\\
+	\end{bmatrix}
+	\begin{bmatrix}
+		2 & 3 \\ 7 & 8 \\ 
+	\end{bmatrix} =
+	\begin{bmatrix}
+		7 & 8 \\ 2 & 3
+	\end{bmatrix}
+\]
+
+\[
+	\begin{bmatrix}
+		2 & 3 \\ 7 & 8 \\ 
+	\end{bmatrix} 
+	\begin{bmatrix}
+		0 & 1 \\ 1 & 0\\
+	\end{bmatrix}=
+	\begin{bmatrix}
+		3 & 2 \\ 8 & 7
+	\end{bmatrix}
+\]
+
+Matrix multiplication:
+\[
+	\begin{bmatrix}
+	a_{11} & a_{12} & a_{13} & ... & a_{1n} \\
+	a_{21} & a_{22} & a_{23} & ... & a_{2n} \\
+	... & &  & ... &  \\
+	a_{m1} & a_{m2} & a_{m3}& ... & a_{mn} \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2 \\ ... \\ x_n
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		\sum_{i=1}^n a_{1i}x_i \\
+		\sum_{i=1}^n a_{2i}x_i \\ 
+		... \\
+		\sum_{i=1}^n a_{ni}x_i\\
+	\end{bmatrix}
+\]
+
+\[
+	\begin{bmatrix}
+		| & | &  & | \\
+		a_1 & a_2 & ... & a_n \\
+		| & | &  & | \\
+	\end{bmatrix}
+		\begin{bmatrix}
+		x_1 \\ ... \\ x_n
+	\end{bmatrix} = 
+	a_1x_1+a_2x_2+...+a_nx_n
+\]
+
+\[
+	\begin{bmatrix}
+		| & | &  & | \\
+		a_1 & a_2 & ... & a_n \\
+		| & | &  & | \\
+	\end{bmatrix}
+	\begin{bmatrix}
+		| &| \\
+		b_1 & b_2 \\
+		| & | \\
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		| & | \\
+		Ab_1 & Ab_2 \\
+		| & | \\
+	\end{bmatrix} 
+\]
+
+\paragraph{Row reduction} In matrix form
+
+\[
+	A = \begin{bmatrix}
+		2 & 1 & 1 \\
+		4 & -6 & 0 \\
+		-2 & 7 & 2 \\
+	\end{bmatrix}
+\]
+
+\begin{enumerate}
+	\item Subtract 2 times row 1 to row 2
+	\[
+		\begin{bmatrix}
+			1 & 0 & 0 \\
+			-2 & 1 & 0 \\
+			0 & 0 & 1 \\
+		\end{bmatrix}_{E_{21}}
+		\begin{bmatrix}
+			2 & 1 & 1 \\
+			4 & -6 & 0 \\
+			-2 & 7 & 2 \\
+		\end{bmatrix}_A = 
+		\begin{bmatrix}
+			2 & 1 & 1 \\
+			0 & -8 & -2 \\
+			-2 & 7 & 2 \\
+		\end{bmatrix}
+	\]
+	\item Subtract -1 times row 1 to row 3
+	\[
+		\begin{bmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			1 & 0 & 1 \\
+		\end{bmatrix}_{E_{31}}
+		E_{21}A = 
+		\begin{bmatrix}
+			2 & 1 & 1 \\
+			0 & -8 & -2 \\
+			0 & 8 & 3 \\
+		\end{bmatrix}
+	\]
+	\item Subtract -1 times row 2 to row 3
+	\[
+		\begin{bmatrix}
+			1 & 0 & 0 \\
+			0 & 1 & 0 \\
+			0 & 1 & 1 \\
+		\end{bmatrix}_{E_{32}}
+		E_{31}E_{21}A = 
+		\begin{bmatrix}
+			2 & 1 & 1 \\
+			0 & -8 & -2 \\
+			0 & 0 & 1 \\
+		\end{bmatrix}
+	\]
+\end{enumerate}
+
+Originally we wanted to solve $Ax=b$. Now we have:
+
+\[
+	E_{32}E_{31}E_{21}A = U
+\]
+
+where $U$ is an upper triangular matrix.
+
+\[
+	E_{32}E_{31}E_{21}Ax = Ux
+\]
+
+Let's let $E_{32}E_{31}E_{21} = L$. Then, we have
+
+\[
+	\begin{matrix}
+		L^{-1}A=U \\
+		A = LU \\
+		Ux = C = E_{32}E_{31}E_{21}b
+	\end{matrix}
+\]
+
+Now we can solve by back substitution.
+
+\[
+	L^{-1}=E_{32}E_{31}E_{21} = \begin{bmatrix}
+		1 & 0 & 0 \\
+		-2 & 1 & 0 \\
+		-1 & 1 & 1 
+	\end{bmatrix}
+\]
+
+
+Matrix inverse properties:
+
+\[
+	\begin{matrix}
+		(AB)^{-1} = B^{-1}A^{-1} \\
+		(A_1A_2...A_n)^{-1} = A_n^{-1}...A_2^{-1}A_1^{-1}
+	\end{matrix}
+\]
+
+So we have:
+
+\[
+	L = \begin{bmatrix}
+		1 & 0 & 0 \\
+		2 & 1 & 0 \\
+		-1 & -1 & 1
+	\end{bmatrix} = E_{21}^{-1}E_{31}^{-1}E_{32}^{-1}
+\]
+
+\paragraph{Row reduction matrices} A matrix that subtracts $l$ times row $j$ from row $i$ is such that it includes $-l$ in row $i$, column $j$.
+
+\[
+	\begin{matrix}
+			A = \begin{bmatrix}
+		1 & 0 & 0 \\
+		2 & 1 & 0 \\
+		-1 & -1 & 1
+	\end{bmatrix}_L
+	\begin{bmatrix}
+		2 & 1 & 1 \\
+		0 & -8 & -2 \\
+		0 & 0 & 1 \\
+	\end{bmatrix}_U
+	\end{matrix}
+\]
+
+$L$ is lower triangular and $U$ is upper triangular.
+
+\begin{enumerate}
+	\item Compute LU factorization
+	\item Solve for $c$ in $Lc = b$ (forward substitution)
+	\item Solve for $x$ in $Ux = c$ (back substitution)
+\end{enumerate}
+
+We want to solve $Ax=b$. We factor to get $LUx =b$. First we find $c$ such that $Lc = b$
+
+\subsection{General Example}
+\[
+	\begin{bmatrix}
+		l_{11} & 0 & 0 \\
+		l_{21} & l_{22} & 0 \\
+		l_{31} & l_{32} & l_{33}
+	\end{bmatrix}
+	\begin{bmatrix}
+		c_1 \\ c_2 \\ c_3
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		b_1 \\ b_2 \\ b_3
+	\end{bmatrix} \Rightarrow
+	\begin{matrix}
+		c_1 = b_1 / l_{11} \\
+		c_2 = b_2 - b_1 l_{21}/ l_{11} \\
+		c_3 = b_3 - l_{31}b_1 - l_{32}(b_2 - b_1 l_{21})
+	\end{matrix}
+\]
+
+\[
+	\begin{bmatrix}
+		u_{11} & u_{12} & u_{13} \\
+		0 & u_{22} & u_{23} \\
+		0 & 0 & u_{33}
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1 \\ x_2 \\ x_3
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		c_1 \\ c_2 \\ c_3
+	\end{bmatrix} \Rightarrow
+	\begin{matrix}
+		x_3 = c_3/u_{33} \\
+		x_2 = \frac{1}{u_{22}}(c_2 - u_{23}c_3/u_{33})\\
+		x_1 = .....
+	\end{matrix}
+\]

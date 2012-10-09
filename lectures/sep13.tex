@@ -1,0 +1,165 @@
+\section{September 13 Lecture}
+
+Announcements
+
+\begin{itemize}
+  \item Matlab tutorials (sections)
+  \item Final projects
+  \begin{itemize}
+    \item Adjustment based on class size
+    \item Pairs
+  \end{itemize}
+  \item Assignment 1 due Fri @ 7pm in Pierce 303
+  \item Collaboration policy
+\end{itemize}
+
+From last time:
+
+\begin{itemize}
+  \item Linear equations $\rightarrow$ Matrix notation
+  \item Column $j$ of $AB=Ab_j$
+  \[
+    A
+    \begin{bmatrix}
+      | & | &  & | \\
+      b_1 & b_2 & ... & b_n \\
+      | & | &  & | \\
+    \end{bmatrix} = 
+    \begin{bmatrix}
+      Ab_1 & Ab_2 & ... & Ab_n \\
+    \end{bmatrix} 
+  \]
+  \item Introduced the $LU$ factorization of square matrix $A$ (see general example at end of last lecture)
+  \[
+    Ax=b \Rightarrow LUx = b
+  \]
+\end{itemize}
+
+\begin{enumerate}
+  \item Find $LU$
+  \item Solve for $c$ in $Lc=b$
+  \item Solve for $x$ in $Ux=c$
+\end{enumerate}
+
+\paragraph{Example} $LU$ factorization
+
+\[
+  A = 
+  \begin{bmatrix}
+    1 & 0 & 1 \\ 
+    2 & 2 & 2 \\
+    3 & 4 & 5
+  \end{bmatrix}
+\]
+
+\begin{enumerate}
+  \item Subtract 2 times row 1 to row 2
+  \[
+    \begin{bmatrix}
+      1 & 0 & 0 \\ 
+      -2 & 1 & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}_{E_{21}} A =
+    \begin{bmatrix}
+      1 & 0 & 1 \\ 
+      0 & 2 & 0 \\
+      3 & 4 & 5
+    \end{bmatrix}
+  \]
+  \[
+    E_{21}^{-1} = \begin{bmatrix}
+      1 & 0 & 0 \\ 
+      2 & 1 & 0 \\
+      0 & 0 & 1
+    \end{bmatrix}
+  \]
+  \item Subtract 3 times row 1 to row 2
+  \[
+    \begin{bmatrix}
+      1 & 0 & 0 \\ 
+      0 & 1 & 0 \\
+      -3 & 0 & 1
+    \end{bmatrix}_{E_{31}} E_{21} A =
+    \begin{bmatrix}
+      1 & 0 & 1 \\ 
+      0 & 2 & 0 \\
+      0 & 4 & 2
+    \end{bmatrix}
+  \]
+  \item Subtract 2 times row 2 to row 3
+  \[
+    \begin{bmatrix}
+      1 & 0 & 0 \\ 
+      0 & 1 & 0 \\
+      0 & -2 & 1
+    \end{bmatrix}_E{32} E_{31} E_{21} A =
+    \begin{bmatrix}
+      1 & 0 & 1 \\ 
+      0 & 2 & 0 \\
+      0 & 0 & 2
+    \end{bmatrix}_U
+  \]
+\end{enumerate}
+
+\[
+  L^{-1} = E_{32} E_{31} E_{21} = \begin{bmatrix}
+    1 & 0 & 0
+    -2 & 1 & 0
+    -3 & -2 & 1
+  \end{bmatrix}
+\]
+
+\[
+  \begin{matrix}
+    L^{-1}A = U \\
+    L = E_{21}^{-1} E_{31}^{-1} E_{32}^{-1} \\
+    L = \begin{bmatrix}
+      1 & 0 & 0 \\
+      2 & 1 & 0 \\
+      3 & 2 & 0 \\
+    \end{bmatrix}
+  \end{matrix}
+\]
+
+\paragraph{Generalizing $LU$ factorization} To $n \times n$ matrix:
+\[
+  \begin{bmatrix}
+    a_{11} & a_{12} & a_{13} & ... &  a_{1n} \\
+    a_{21} & a_{22} & a_{23} & ... &  a_{2n} \\
+    ... & ... & ... & ... & ...  \\
+    a_{n1} & a_{n2} & a_{n3} & ... &  a_{nn} \\
+  \end{bmatrix}
+\]
+
+\begin{enumerate}
+  \item Introduce zeros below $a_{11}$ by subtracting multiples of row 1
+  \item Use multipliers $l = \frac{a_{i1}}{a_{11}}$
+  \item Repeat 1 and 2 for $a_{22}^*,a_{33}^*$, ...
+\end{enumerate}
+
+Step 1:
+\[
+  \begin{array}{c|cccc}
+    a_{11} & a_{12} & a_{13} & ... &  a_{1n} \\\hline
+    0 & a_{22}^* & a_{23}^* & ... &  a_{2n}^* \\
+    ... & ... & ... & ... & ...  \\
+    0 & a_{n2}^* & a_{n3}^* & ... &  a_{nn}^* \\
+  \end{array}
+\]
+
+Step 2:
+\[
+  \begin{array}{c|c|ccc}
+    a_{11} & a_{12} & a_{13} & ... &  a_{1n} \\\hline
+    0 & a_{22}^* & a_{23}^* & ... &  a_{2n}^* \\\hline
+    ... & 0 & a_{33}^* & ... & a_{3n}^* \\
+    ... & ... & ... & ... & ...  \\
+    0 & 0 & a_{n3}^* & ... &  a_{nn}^* \\
+  \end{array}
+\]
+
+How many operations does this algorithm use?
+
+\[
+  \sum_{k=1}^n k^2 - \sum_{k=1}^n k = \frac{n(n+1)(2n+1)}{6} - \frac{n(n+1)}{2}
+\]
