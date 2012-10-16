@@ -1,0 +1,124 @@
+\section{Oct 16}
+
+\paragraph{Fundamental theorem of Linear Algebra}
+\begin{itemize}
+  \item The null space of $A$, $N(A)$, is the orthogonal complement of the row space of $A$ (living in $\bbR^n$)
+  \item The left null space $N(A^T)$ is the orthogonal complement of the column space of $A$
+\end{itemize}
+
+\[
+  \min_{\hat{x} \in \bbR} \norm{a \hat{x} - b}
+\]
+
+\begin{align*}
+  b-\hat{x}a &\perp a \\
+  \<a,b-\hat{x}a\> &= 0\\
+  a^t(b-\hat{x}a) &= 0\\
+  \hat{x} &= {a^t b \over a^t a} \\
+  p &= \hat{x} a
+\end{align*}
+
+In $\bbR^n$:
+
+\[
+  e_i = \begin{bmatrix}
+    0 \\ \vdots \\ 1 \\ \vdots \\ 0
+  \end{bmatrix} \text{ 1 at the } i\text{th element}
+\]
+
+These $\{e_k\}$ form an orthonormal basis for $\bbR^n$.
+
+\[
+  \bbR^5 : v = \begin{bmatrix}
+    1 \\ 2 \\ 3 \\ 4 \\ 5
+  \end{bmatrix} = 
+  1 \begin{bmatrix} 1 \\ 0 \\ 0 \\ 0 \\ 0  \end{bmatrix} +
+  2 \begin{bmatrix} 0 \\ 1 \\ 0 \\ 0 \\ 0 \end{bmatrix} +
+  3 \begin{bmatrix} 0 \\ 0 \\ 1 \\ 0 \\ 0 \end{bmatrix} +
+  4 \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \\ 0 \end{bmatrix} +
+  5 \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}
+\]
+
+\[
+  v = c_1 e_1 + ... + c_5 e_5 \text{ where } c_i = {\< v, e_i \> \over \norm{e_i}^2}
+\]
+
+\subsection{Fourier series}
+
+Similarly, we can express an arbitrary function $f(x)$ as a sum:
+
+\[
+  f(x) = a_0 + \sum_{k=1}^\infty a_k \cos{kx} + b_k \sin{kx}
+\]
+
+The basis functions are $\sin(kx)$ and $\cos(kx)$.
+
+Define $f(x) : [-\pi,\pi] \to \bbR$.
+
+\[
+  \int_{-\pi}^\pi \abs{f(x)}^2 < M
+\]
+
+$M$ is finite. If $f,g \in L^2([-\pi,\pi]) \Rightarrow \<f,g\> = \int_{-\pi}^\pi f(x)g(x)dx$
+
+Functions that map from finite intervals to the real numbers form a vector space.
+
+What should $a_k, b_k$ and $a_o$ be?
+
+\[
+  a_k = {1 \over \pi} \int_{-\pi}^\pi f(x)\cos(kx)dx
+\]
+
+\[
+  b_k = {1 \over \pi} \int_{-\pi}^\pi f(x)\sin(kx)dx
+\]
+
+% \[
+%   a_0 = {1 \over \pi} \int_{-\pi}^\pi f(x)dx
+% \]
+
+Euler's formula:
+
+\[
+  e^{ikx} = \cos{kx} + i \sin{kx}
+\]
+
+\[
+  f(x) = \sum_{k=-\infty}^\infty c_k e^{ikx} \text{ with } c_k = {1 \over 2\pi} \int_{-\pi}^\pi f(x) e^{ikx} dx
+\]
+
+How do we bring this problem to finite dimension, so we can solve a problem of the form $Ax=b$?
+
+Suppose you have a discrete signal on a fixed interval.
+
+\begin{align*}
+  f(x) &= c_0 + c_1 e^ikx + c_2 e^i2kx + c_3 e^i3kx \\
+  f(0) &= f_0 = c_0 + c_1 + c_2 + c_3  \\
+  f(\pi/2) &= f_1 = c_0 + c_1 i - c_2 - c_3 i \\
+  f(\pi) &= f_2 \\
+  f(3\pi/2) &= f_3
+\end{align*}
+
+This gives us matrix $A$:
+
+\[
+  \begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    1 & i & i^2 & i^3 \\
+    1 & i^2 & i^4 & i^6 \\
+    1 & i^3 & i^6 & i^9 \\    
+  \end{bmatrix}
+\]
+
+For use in problem $Ac=f$:
+
+\[
+  c = \begin{bmatrix}
+    c_0 \\ c_1 \\ c_2 \\ c_3
+  \end{bmatrix},
+  f = \begin{bmatrix}
+    f_0 \\ f_1 \\ f_2 \\ f_3
+  \end{bmatrix}
+\]
+
+Sunspots and crazy stuff.
