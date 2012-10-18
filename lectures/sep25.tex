@@ -1,2 +1,82 @@
 \section{September 25 Lecture}
-Not converted from paper
+Need to solve $Ax=b$. In theory, we can find $A^{-1}$. In practice, this is not necessary -- it takes too many operations!
+
+\[
+  A \begin{bmatrix}
+    | & | & \cdots & |  \\
+    x_1 & x_2 & \cdots & x_n  \\
+    | & | & \cdots & |  \\
+  \end{bmatrix} = 
+  \begin{bmatrix}
+    | & | & \cdots & |  \\
+    e_1 & e_2 & \cdots & e_n  \\
+    | & | & \cdots & |  \\
+  \end{bmatrix} = 
+\]
+
+\begin{align*}
+  A A^{-1} &= I \\
+  x &= A^{-1}b
+\end{align*}
+
+In practice, we find $LU$. Then we solve $Lc = b$L
+
+\begin{align*}
+  Lc &= b \\
+  c = L^{-1}b
+\end{align*}
+
+Then, we solve $Ux = c$:
+
+\begin{align*}
+  Ux &= c
+  L^{-1} A x &= L^{-1} b
+\end{align*}
+
+This algorithm fails if any of the pivots are 0.
+
+\paragraph{Singular matrix} A matrix is singular if $\det(A) \not= 0 \iff Ax = b$ has a unique solution.
+
+\subsection{Floating point nonsense}
+
+\[
+  fl(1 + \epsilon) > 1 \Rightarrow \epsilon = {1 \over 2} \beta^{1 - \rho}
+\]
+
+Machine precision ($\epsilon_{\text{mach}}$): single ~$10^{-8}$; double ~$10^{-16}$.
+
+\begin{align*}
+  a &= 1.23456 \times 10^2
+  a &= -1.23455 \times 10^{-2}
+  a &= -1.11123 \times 10^{-3}
+  a+b+c &= (1 \times 10^{-3}) -1.11123 \times 10^{-3} = -1.1123 \times 10^{-4}
+\end{align*}
+
+This is the result if we calculate $(a+b) + c$. Notice that if we use 6-digit arithmetic and calculate $a+(b+c)$, we get 0! Floating point arithmetic is not associative.
+
+\[
+  \sum_{n=1}^\infty {1 \over n} \to
+\]
+
+\begin{enumerate}
+  \item ${1 \over n}$ < UFL
+  \item $\sum_{n=1}^{k_2} {1 \over n}$ > OFL
+  \item fl$\left(\left(\sum_{n=1}^{k_3} {1 \over n}\right) + {1 \over k_3 + 1} \right) = \sum_{n=1}^{k_3} {1 \over n}$
+\end{enumerate}
+
+\subsection{Catastrophic cancellation}
+
+If we add a very small number to a big number, sometimes we get the same big number! Like $1.0 \times 10^8 + 1.0 \times 10^{-9} = 1.0 \times 10^8$.
+
+\begin{align*}
+  A + b &= A \\
+  A - b &= A
+\end{align*}
+
+Partial pivoting minimized catastrophic cancellation. *Bunch of matrices about the steps of partial pivoting, that I don't even think were accurate*
+
+\paragraph{Theorem} For a non-singular and square matrix $A$, $\exists P$ (permutation matrix) thta reorders rows of $A$ to avoid zeros in the pivot positions. $Ax=b$ has a unique solution and with the rows ordered ``in advance.''
+
+\[
+  PA = LU \text{ and } L \text{ and } U \text{ are unique}
+\]
