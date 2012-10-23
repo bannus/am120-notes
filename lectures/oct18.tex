@@ -1,0 +1,70 @@
+\section{October 18 (Guest) Lecture}
+
+J. Nathan Kutz from University of Washington.
+
+If the determinant is 0 -- BAD.
+
+Forearm shiver. This is how you win a wrestling match.
+
+\begin{enumerate}
+  \item $\det{A - \lambda I} \not= 0$. $\vec{X} = (A - \lambda I)^{-1} \cdot 0 = 0$
+  \item $\det{A - \lambda I} = 0$
+\end{enumerate}
+
+\[
+  A = \begin{bmatrix}
+    1 & 3 \\ -1 & 5
+  \end{bmatrix}
+\]  
+
+\[
+  \begin{bmatrix}
+    1 - \lambda & 3 \\ -1 & 5 - \lambda
+  \end{bmatrix} \vec{x} = 0
+\]
+
+\begin{align*}
+  (1 - \lambda)(5 - \lambda) + 3 &= 0
+  \lambda^2 - 6 \lambda + 8 &= 0
+  (\lambda - 2)(\lambda - 4) &= 0
+  \lambda &= 2,4
+\end{align*}
+
+Protip: don't do algebra or spell in public.
+
+\begin{align*}
+  \lambda &= 2: \begin{bmatrix}
+    -1 & 3 \\ -1 & 3
+  \end{bmatrix} \vec{x} = 0\\
+  \vec{x} &= \begin{bmatrix}
+    x_1 \\ x_2
+  \end{bmatrix} \\
+  x_1 &= 3x_2
+\end{align*}
+
+One equation, two unknowns $\to$ infinite solutions.
+
+\begin{align*}
+  \lambda &= 4: \begin{bmatrix}
+    -3 & 3 \\ -1 & 1
+  \end{bmatrix} \vec{x} = 0\\
+  -x_1 + x_2 &= 0
+\end{align*}
+
+Dot products! Geometrically, indicates how much one is projected onto the other. Help
+
+\subsection{Face Recognition}
+
+We can read images with the followig command:
+
+\verb!A = imresize(double(rgb2gray(imread('pic','jpeg'))),[120 80])!
+
+Then, we reshape them into a single row:
+
+\verb!a = reshape(A,1,120*80)!
+
+We use each of these rows to assemble an $n \times 120*80$ matrix $B$. Then, we calculate $C = B^T B$.
+
+We use the command \verb![V,D] = eigs(C,20,'lm')! to get the first 20 largest magnitude values.
+
+The eigenvectors define a basis of faces. Each face has a different (hopefully unique) set of coefficients that can be used for face recognition.

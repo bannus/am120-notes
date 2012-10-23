@@ -1,0 +1,140 @@
+\section{October 23 Lecture}
+
+Announcements:
+
+\begin{itemize}
+  \item Graded assignments (Rebeccca at Pierce 318)
+  \item No assignment this week
+\end{itemize}
+
+Last class we were talking about Fourier decomposition.
+
+\begin{align*}
+  f(x) &= a_0 \sum_{k=1}^\infty a_k \cos(kx) + b_k \sin(kx)\\
+  a_0 &= {1 \over 2\pi} \int_{-\pi}^\pi f(x) dx\\
+  a_k &= {1 \over \pi} \int_{-\pi}^\pi f(x) \cos(kx) dx\\
+  b_k &= {1 \over \pi} \int_{-\pi}^\pi f(x) \sin(kx) dx
+\end{align*}
+
+\subsection{Discrete Fourier Series}
+
+When $n=4$:
+
+\[
+  f = c_0 + c_1 e^{ix} + c_2 e^{2ix} + c_3 e^{3ix}
+\]
+
+We saw that this becomes an interpolation problem:
+
+\begin{align*}
+  A &= \begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    1 & i & i^2 & i^3 \\
+    1 & i^2 & i^4 & i^6 \\
+    1 & i^3 & i^6 & i^9 \\    
+  \end{bmatrix}\\
+  Ac &= f\\
+  A^{-1} &= {1\over4} \bar{A}\\
+  c &= A^{-1}f
+\end{align*}
+
+Note that $\bar{A}$ is the conjugate transpose.
+
+\subsection{Least-Squares Minimization}
+
+If we have a group of points $(t_i,y_i)$, we want to find a line that fits these `best.' If the line is given by $y = a t + b$ A basic idea is to minimize $\sum \abs{y_i - (a t_i + b)}$ (the vertical error).
+
+If we only consider lines running through the origin:
+
+\[
+  \begin{bmatrix}
+    t_1 \\ t_2 \\ t_3
+  \end{bmatrix} x =
+  \begin{bmatrix}
+    y_1 \\ y_2 \\ y_3
+  \end{bmatrix}
+\]
+
+Find $x$ such that $Ax=b$. If $b$ is in $C(A)$, there is a unique solution. This would be the case in which all points are already on a line.
+
+If this is not the case, what can we do? Say we have $(2,y_1),(3,y_2),(4,y_3).$ We want to minimize:
+
+\begin{align*}
+  \norm{r}^2 &= (2x-y_1)^2 + (3x-y_2)^2 + (4x - y_3)^2 = J
+  &= \norm{Ax - b}^2
+\end{align*}
+
+How do we maximize/minimize?
+
+
+\begin{align*}
+  {dJ \over dx} = 0 &= 4 (2x - y_1) + 6 (3x - y_2) + 8 (4x - y_3) \\
+  x &= {2y_1 + 3y_2 + 4y_3 \over 2^2 + 3^2 + 4^2 }
+\end{align*}
+
+Alternately we can write this as the norm of the error. We note that $x^T = x$ since it just a scalar value.
+
+\begin{align*}
+  J = \< ax - y, ax - y \> &= (ax-y)^T (ax-y) \\
+  &= (x a^T - y^T)(ax-y) \\
+  &= a^Tax^2 - 2a^Tyx + y^Ty\\
+  {dJ \over dx} &= 2xa^Ta- 2a^Ty = 0 \\
+  x &= {a^T y \over a^T a} = {\<a,y\> \over \<a,a\>} = {\<a,y\> \over \norm{a}^2}
+\end{align*}
+
+We see that $x$ is the projection of $y$ onto the column space of $A$.
+
+\subsection{Physics Example}
+
+For a flying ball:
+
+\begin{align*}
+  {d^2 y \over d t^2} &= -g\\
+  y &= {-gt^2 \over 2} + at + b\\
+  y_i &= c_2 t_i^2 + c_1 t_i + c_0
+\end{align*}
+
+Say we had sampled many $(t_i,y_i)$ points that we expect to be close to a polynomial path. If we have more than 3 measurements, we have an overdetermined system. This is how it will look in matrix form:
+
+\[
+  \begin{bmatrix}
+    1 & t_1 & t_1^2 \\
+    1 & t_1 & t_1^2 \\
+     & \vdots &     \\
+    1 & t_n & t_n^2 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    c_0 \\ c_1 \\ c_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    y_1 \\ y_2 \\ \vdots \\ y_n
+  \end{bmatrix}
+\]
+
+We look for $x \in \bbR^m$ such that $\norm{Ax-b}^2 = \<Ax-b,Ax-b\>$ is minimized ($\delta J = 0$).
+
+\[
+  A^T Ax = A^T b \text{ ``Normal equations''}
+\]
+
+Simple example:
+
+\[
+  \begin{bmatrix}
+    a_{11} & a_{12} \\ 
+    a_{21} & a_{22} \\ 
+    a_{31} & a_{32} \\ 
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_1 \\ x_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    b_1 \\ b_2 \\ b_3
+  \end{bmatrix}
+\]
+
+Something about residuals being perpendicular to something. $A^T r = 0$ means that $r$ is perpendicular to every column of $A$. $A^T(b-Ax) = 0$ is the same expression as $A^TAx = A^T b$.
+
+This problem can be solved if the columns of $A$ are linearly independent. We'll prove this next class.
