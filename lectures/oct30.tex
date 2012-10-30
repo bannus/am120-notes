@@ -1,0 +1,220 @@
+\section{October 30 Lecture}
+Last class: least square problem. We have a set of $m$ measurements and would like to represent them by a lower dimensional approximation.
+This lower dimensional approximation is typically proposed on theoretical (or practical) reasons
+
+Today:
+\begin{itemize}
+  \item Noisy data $\longrightarrow$ smooth (polynomial representation)
+  \item Complicated function $\longrightarrow$ simple approx.
+\end{itemize}
+
+In the language of linear algebra: need to find a projection of higher dimension onto a lower-dimensional space.
+
+Examples: last class, linear fit, parabolic fit
+
+\[
+  \begin{bmatrix}
+    &  &  \\
+    &  &  \\
+    & A &  \\
+    &  &  \\
+    &  &  \\
+  \end{bmatrix}_{m \times n}
+  \begin{bmatrix}
+     \\ x \\ \\
+  \end{bmatrix}_{n \times 1}
+  \approx
+  \begin{bmatrix}
+    \\ \\ b \\ \\ \\
+  \end{bmatrix}_{m \times 1}
+\]
+
+\begin{align*}
+  \norm{r}^2 &= \norm{Ax - b}^2\\
+  \Delta J &= 0 : \hat{x} \text{ such that}\\
+  \norm{r}^2 &\text{ is minimized} \\
+  A^tA\hat{x} &= A^T b \text{ Normal equations}\\
+  r &\perp C(A) \\
+  A^T(r) &= 0 \iff A^T(Ax-b) = 0
+\end{align*}
+
+The (least squares) solution $\hat{x}$ exists and is unique when ($A^TA$) is invertible.
+
+\begin{align*}
+  \hat{x} &= (A^TA)^{-1} A^T b \\
+\end{align*}
+
+We know that $A^TA$ is of size $n \times n$. How can we show that the null space of $A$ is the same as the null space of $A^TA$?
+
+\proof If $x\in N(A)$, by definition $Ax = 0$. Therefore, $A^TAx = A^T 0 = 0$.
+
+If $x \in N(A^TA),$ by definition $A^TAx = 0$. Therefore, $x^TA^TAx = x^T 0 = 0$. This is by definition $\norm{Ax}^2 = 0 \iff Ax = 0$. \qed
+
+If $A$ is not well-conditioned (rows are close to linearly dependent), then the normal equations are very ill-conditioned.
+
+\paragraph{Simple example} SUppose I want to solve this problem:
+
+\[
+  \begin{bmatrix}
+    1 & 0 \\
+    0 & 1 \\
+    0 & 0 \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_1 \\ x_2
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    1 \\ 1 \\ 1
+  \end{bmatrix}
+\]
+
+Seems that there is no solution, since $b_3 = 1$. Suppose we calculate the residual $\norm{r}^2 = \norm{Ax - b}^2 = (x_1 - 1)^2 + (x_2 - 1)^2 + (0-1)^2$. Part of the residual must be 1, so to minimize we find $\hat{x_1}$ and $\hat{x_2}$ to 1.
+
+If we were to use the normal equations:
+
+\[
+  A^T A \hat{x} = \begin{bmatrix}
+    1 & 0 \\ 0 & 1
+  \end{bmatrix} \hat{x}
+  =
+  \begin{bmatrix}
+    1 \\ 1
+  \end{bmatrix}
+\]
+
+This yields the solutions we found above.
+
+\[
+  \begin{bmatrix}
+    R_{n \times n} \\ 0
+  \end{bmatrix}
+  \begin{bmatrix}
+    \\ x \\ \\
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    {b_1} \\ {b_2}
+  \end{bmatrix}
+  \begin{matrix}
+     n \times 1 \\ m- n \times 1
+  \end{matrix}
+\]
+
+If we have a problem with $A$ in this form:
+
+\begin{align*}  
+  \norm{r}^2 &= \norm{Rx - b_1}^2 + \norm{0 - b_2}^2 \\
+  \hat{x} &\text{ is a minimum if }\\
+  R\hat{x} &= b_1 \Rightarrow \norm{r}^2 = \norm{b_2}^2
+\end{align*}  
+
+When we wanted to solve $Ax=b$ previously, our method was to take $A$ and transform it into $LU$. Then, we solved the system $Ux = L^{-1}b = \tilde{b}$.
+
+When solving the least squares problem
+
+\begin{align*}
+  A\hat{x} &\approx b \\
+  Q^TA\hat{x} &\approx Q^Tb \\
+  \norm{r}^2 &= \norm{Ax - b}^2 = \norm{Q^T(Ax-b)}^2 = \norm{Q^TAx - Q^Tb}^2 = \norm{\tilde{r}}^2
+\end{align*}
+
+If we multiply the original problem by $Q^T$ such that $Q^TQ = I$, then multiplying the problem solves the equivalent problem.
+
+\begin{align*}
+  \norm{Qv}^2 &= \< Qv, Qv\> \\
+  &= (Qv)^T QV \\
+  &= v^TQ^TQv \\
+  &= v^T v = \norm{v}^2
+\end{align*}
+
+So we can transform any arbitrary $A$ using $Q$ (orthogonal transformation) like so:
+
+\[
+  Q^TA = 
+  \begin{bmatrix}
+    R_{n \times n} \\ 0
+  \end{bmatrix}
+\]
+
+Note that if we designate $R$ as upper triangular, we can just do back substitution. 
+
+Why are the normal equations not good to be solved by a computer?
+
+\[
+  A =
+  \begin{bmatrix}
+    1 & 1 \\
+    \epsilon & 0 \\
+    0 & \epsilon \\
+  \end{bmatrix}
+\]
+
+We choose $0 < \epsilon < \sqrt{\epsilon_\text{mach}}$ and $\epsilon_\text{mach} < \epsilon$
+
+This is ill conditioned, because the rows and columns are close to being linearly dependant.
+
+\[
+  A^T A = \begin{bmatrix}
+    1 + \epsilon^2 & 1 \\
+    1 & 1 + \epsilon^2
+  \end{bmatrix}
+\]
+
+Since $\epsilon^2$ is less than machine precision, all of a sudden we have a singular matrix.
+
+\begin{center}
+\line(1,0){250}
+\end{center}
+
+$Q$ is \textbf{orthogonal} if $Q^TQ = I$.
+
+\begin{itemize}
+  \item Rotations
+  \item Reflections
+  \item
+\end{itemize}
+
+Suppose I want to find the $QR$ factorization of this matrix:
+
+\[
+  \begin{bmatrix}
+    a_{11} & a_{12} \\
+    a_{21} & a_{22} \\
+    a_{31} & a_{32} \\
+  \end{bmatrix}
+\]
+
+\[
+  \rightarrow \begin{bmatrix}
+     a_{11}^* & a_{12}^* \\
+    0 & a_{22}^* \\
+    0 & 0
+  \end{bmatrix}
+\]
+
+Simple example:
+
+\[
+  Q \begin{bmatrix}
+    a_1 \\ a_2
+  \end{bmatrix} \rightarrow
+  \begin{bmatrix}
+    \alpha \\ 0
+  \end{bmatrix}
+\]
+
+\[
+  \begin{bmatrix}
+    \cos\theta & -\sin\theta \\
+    \sin\theta & \cos\theta \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    a_1 \\ a_2
+  \end{bmatrix} \rightarrow
+  \begin{bmatrix}
+    \alpha \\ 0
+  \end{bmatrix}
+\]
+
+Now he's making a giant matrix that I don't want to write out. Step 1 is $Q_1^T A$ to get a matrix that has all 0s below the first diagonal. Then the next step has $Q_2^T Q_1^T A$ which has all 0s below the second diagonal.
