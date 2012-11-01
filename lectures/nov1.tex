@@ -1,0 +1,204 @@
+%!TEX root = ../notes.tex
+\section{November 1 Lecture}
+
+Least squares problem
+Find $\hat{x}$ such that $Ax \approx b$. A is an $m \times n$ matrix ($m \geq n$), $x$ is $n$-vector, $b$ is $m$-vector. In other words, $J(x) = \norm{Ax - b}^2 = \norm{r}^2$ (residual) is minimized. If $A$ is full rank (column) then $r$ must be perpendicular to $C(A)$.
+
+\begin{align*}
+  &\Rightarrow A^Tr = A^T(Ax-b) = 0\\
+  &\Rightarrow A^TA\hat{x} = A^Tb &\text{Normal equations}\\
+  &\Rightarrow \hat{x} = (A^T A)^{-1}A^T b &\text{are the coeff (theory)}
+\end{align*}
+
+$P = A \hat{x}$ is the projection of $b$ onto $C(A)$. If $P'$ is the projection matrix, then $A\hat{x} = P'x = \underbrace{A(A^TA)^{-1} A^T}_{P'} b$.
+
+Since $C(A)$ is the orthogonal complement of $N(A^T)$ (left-null space) in $R^m$:
+
+\begin{align*}
+  b &= P'b+(I-P')b & P'b &\in C(A) \\
+  & & (I-P)b &\in N(A^T)
+\end{align*}
+
+We want to transform $A$ into a matrix that has $R_{n \times n}$ at the top and $0_{m \times m-n}$ at the bottom. $Q$ is an orthogonal transformation if $Q^TQ = I \Rightarrow Q^T=Q^{-1}$.
+
+For any vector $v \in \bbR^{m}$:
+
+\[
+  \norm{Qv}^2 = (Qv)^T Qv = v^T Q^T Q v = v^T v = \norm{v}^2
+\]
+
+Householder transformations
+
+\[
+  Ha = H \begin{bmatrix}
+    a_1 \\ a_2 \\ \vdots \\ a_m
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \alpha \\ 0 \\ \vdots \\ 0
+  \end{bmatrix}
+\]
+
+If we have $A$:
+
+\begin{align*}
+  A &=
+  \begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n} \\
+    a_{21} & a_{22} & \cdots & a_{2n} \\
+    & \ddots & \\
+    \\
+    a_{m1} & & & a_{mn}
+  \end{bmatrix} \\
+  H_1 A &=
+  \begin{bmatrix}
+    \alpha & * & \cdots & * \\
+    0 & a_{22} & \cdots & a_{2n} \\
+    0& \ddots & \\
+    \vdots\\
+    0 & & & a_{mn}
+  \end{bmatrix} \\
+  H_2 H_1 A &=
+  \begin{bmatrix}
+    \alpha & * & \cdots & * \\
+    0 & * & \cdots & * \\
+    0 & 0 & \ddots & a_{3n}\\
+    \vdots\\
+    0 & 0 & & a_{mn}
+  \end{bmatrix} \\
+\end{align*}
+
+How to find $H$?
+
+\begin{align*}
+  H &= I - 2 {v v^T \over \norm{v}^2} \text{ where } a - \alpha e_1 \\
+  \alpha &= -sign{a_1}\norm{a}
+\end{align*}
+
+Simple example:
+
+\begin{align*}
+  a &= \begin{bmatrix}
+    4 \\ 3
+  \end{bmatrix} \\
+  v &= \begin{bmatrix}
+    4 \\ 3
+  \end{bmatrix}
+  +
+  5 \begin{bmatrix}
+    1 \\ 0
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    9 \\ 3
+  \end{bmatrix} \\
+  Ha &= \left[
+    \underbrace{
+      \begin{bmatrix}
+        1 & 0 \\ 0 & 1
+      \end{bmatrix}
+    }_I
+    -
+    2
+    {
+      \begin{bmatrix}
+        9 \\ 3
+      \end{bmatrix}
+      \begin{bmatrix}
+        9 & 3
+      \end{bmatrix}
+      \over
+      90
+    }
+  \right]
+  \begin{bmatrix}
+    4 \\ 3
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    4 \\ 3
+  \end{bmatrix}
+  -
+  {2(45) \over 90}
+  \begin{bmatrix}
+    9 \\ 3
+  \end{bmatrix} \\
+  &= \begin{bmatrix}
+    -5 \\ 0
+  \end{bmatrix}
+\end{align*}
+
+So how does this help? We're looking to transform:
+
+\begin{align*}
+  A &\to \begin{bmatrix}
+    R \\ 0
+  \end{bmatrix} \\
+  Q^T A &= \begin{bmatrix}
+    R \\0
+  \end{bmatrix} \Rightarrow A = Q \begin{bmatrix}
+    R \\ 0
+  \end{bmatrix} \\
+  A &= \begin{bmatrix}
+    \underbrace{Q_1}_{n} & \underbrace{Q_2}_{m-n}
+  \end{bmatrix}_{m \times m}
+  \begin{bmatrix}
+    R \\ 0
+  \end{bmatrix} =
+  Q_1 R + Q_20 = Q_1 R
+\end{align*}
+
+\subsection{Eigenvectors}
+
+$A$ is a square matrix.
+
+Find $x$ and $\lambda$ s.t. $Ax = \lambda x$. The $x$ are called eigenvectors and $\lambda$ are eigenvalues.
+
+Suppose $\exists n \set{x_i}$ and $\set{\lambda_i} \Rightarrow$ any $y \in R^n, y = \sum_{i=1}^n c_i x_i$.
+
+\begin{align*}
+  Ay = A\sum_{i=1}^n c_i x_i = c_1 \lambda_1 x_1 + c_2 \lambda_2 x_2 + \cdots +c_n \lambda_n x_n
+\end{align*}
+
+Suppose we have $S$:
+
+\begin{align*}
+  S &=
+  \begin{bmatrix}
+    | & | &  & | \\
+    x_1 & x_2 & \cdots & x_n \\
+    | & | &  & | \\
+  \end{bmatrix} \\
+  AS &=
+  \begin{bmatrix}
+    | & | &  & | \\
+    Ax_1 & Ax_2 & \cdots & Ax_n \\
+    | & | &  & | \\
+  \end{bmatrix} = 
+  \begin{bmatrix}
+    | & | &  & | \\
+    \lambda_1x_1 & \lambda_2x_2 & \cdots & \lambda_nx_n \\
+    | & | &  & | \\
+  \end{bmatrix} \\
+  &= \begin{bmatrix}
+    | & | &  & | \\
+    x_1 & x_2 & \cdots & x_n \\
+    | & | &  & | \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \lambda_1 & & & 0 \\
+    & \lambda_2 &\\
+    & & \ddots\\
+    0& & & \lambda_n
+  \end{bmatrix}
+\end{align*}
+
+So we can write:
+
+\begin{align*}
+  AS = S \Lambda
+  A = S \Lambda S^{-1}
+\end{align*}
+
+This is another factorization -- a diagonalization process. If $A$ is symmetric and positive, then $S$ and $S^{-1}$ are orthogonal.           
+
