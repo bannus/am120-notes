@@ -23,11 +23,11 @@ From last time:
     A
     \begin{bmatrix}
       | & | &  & | \\
-      b_1 & b_2 & ... & b_n \\
+      b_1 & b_2 & \cdots & b_n \\
       | & | &  & | \\
     \end{bmatrix} = 
     \begin{bmatrix}
-      Ab_1 & Ab_2 & ... & Ab_n \\
+      Ab_1 & Ab_2 & \cdots & Ab_n \\
     \end{bmatrix} 
   \]
   \item Introduced the $LU$ factorization of square matrix $A$ (see general example at end of last lecture)
@@ -125,37 +125,37 @@ From last time:
 \paragraph{Generalizing $LU$ factorization} To $n \times n$ matrix:
 \[
   \begin{bmatrix}
-    a_{11} & a_{12} & a_{13} & ... &  a_{1n} \\
-    a_{21} & a_{22} & a_{23} & ... &  a_{2n} \\
-    ... & ... & ... & ... & ...  \\
-    a_{n1} & a_{n2} & a_{n3} & ... &  a_{nn} \\
+    a_{11} & a_{12} & a_{13} & \cdots &  a_{1n} \\
+    a_{21} & a_{22} & a_{23} & \cdots &  a_{2n} \\
+    \vdots & \ddots &  &  &   \\
+    a_{n1} & a_{n2} & a_{n3} & \cdots &  a_{nn} \\
   \end{bmatrix}
 \]
 
 \begin{enumerate}
   \item Introduce zeros below $a_{11}$ by subtracting multiples of row 1
   \item Use multipliers $l = \frac{a_{i1}}{a_{11}}$
-  \item Repeat 1 and 2 for $a_{22}^*,a_{33}^*$, ...
+  \item Repeat 1 and 2 for $a_{22}^*,a_{33}^*$, \dots
 \end{enumerate}
 
 Step 1:
 \[
   \begin{array}{c|cccc}
-    a_{11} & a_{12} & a_{13} & ... &  a_{1n} \\\hline
-    0 & a_{22}^* & a_{23}^* & ... &  a_{2n}^* \\
-    ... & ... & ... & ... & ...  \\
-    0 & a_{n2}^* & a_{n3}^* & ... &  a_{nn}^* \\
+    a_{11} & a_{12} & a_{13} & \dots &  a_{1n} \\\hline
+    0 & a_{22}^* & a_{23}^* & \dots &  a_{2n}^* \\
+    \vdots & \vdots & \vdots & \ddots & \vdots  \\
+    0 & a_{n2}^* & a_{n3}^* & \dots &  a_{nn}^* \\
   \end{array}
 \]
 
 Step 2:
 \[
   \begin{array}{c|c|ccc}
-    a_{11} & a_{12} & a_{13} & ... &  a_{1n} \\\hline
-    0 & a_{22}^* & a_{23}^* & ... &  a_{2n}^* \\\hline
-    ... & 0 & a_{33}^* & ... & a_{3n}^* \\
-    ... & ... & ... & ... & ...  \\
-    0 & 0 & a_{n3}^* & ... &  a_{nn}^* \\
+    a_{11} & a_{12} & a_{13} & \dots &  a_{1n} \\\hline
+    0 & a_{22}^* & a_{23}^* & \dots &  a_{2n}^* \\\hline
+    \vdots & 0 & a_{33}^* & \dots & a_{3n}^* \\
+    \vdots & \vdots & \vdots & \ddots & \vdots  \\
+    0 & 0 & a_{n3}^* & \dots &  a_{nn}^* \\
   \end{array}
 \]
 

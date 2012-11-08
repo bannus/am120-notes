@@ -1,0 +1,238 @@
+%!TEX root = ../notes.tex
+\section{November 6 Lecture}
+
+\subsection{Eigenvalues and Eigenvectors}
+
+Find $x$ and $\lambda$ s.t. $Ax = \lambda x$.
+
+$A$ is a square ($n \times n$) matrix.
+
+In the language of linear algebra, find $\lambda$ s.t. ($A-\lambda I$) has a non-zero null space.
+
+$\iff$ ($A-\lambda I$) has linearly dependent columns
+
+$\iff$ $A-\lambda I$ has at least a zero pivot
+
+$\iff$ $A-\lambda I$ is singular
+
+$\iff$ $\det(A-\lambda I)$ = 0
+
+\paragraph{Recall:} If we have a set of $n$ linearly independent eigenvectors of $A$, the $A$ can be diagonalized:
+
+\begin{align*}
+  S &=
+  \begin{bmatrix}
+    | & | &  & | \\
+    x_1 & x_2 & \cdots & x_n \\
+    | & | &  & | \\
+  \end{bmatrix} 
+  \text{eigenvectors are columns of } S\\
+  AS &=
+  \begin{bmatrix}
+    | & | &  & | \\
+    Ax_1 & Ax_2 & \cdots & Ax_n \\
+    | & | &  & | \\
+  \end{bmatrix} =
+  \begin{bmatrix}
+    | & | &  & | \\
+    \lambda x_1 & \lambda x_2 & \cdots & \lambda x_n \\
+    | & | &  & | \\
+  \end{bmatrix} \\
+  &=
+  \begin{bmatrix}
+    | & | &  & | \\
+    x_1 & x_2 & \cdots & x_n \\
+    | & | &  & | \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \lambda_1 & & & 0 \\
+    & \lambda_2 &\\
+    & & \ddots\\
+    0& & & \lambda_n
+  \end{bmatrix}
+\end{align*}
+
+Where $\Lambda$ is a diagonal matrix:
+
+\begin{align*}
+    A &= S \L S^{-1} \\
+    \Lambda &= S^{-1} A S
+\end{align*}
+
+\paragraph{Example} Find eigenvalues:
+
+\begin{align*}
+    A &=
+  \begin{bmatrix}
+    3 & 1 \\ 0 & 3
+  \end{bmatrix} \\
+  \lambda_{1} &= 3, \lambda_{2} = 3 \\
+  (A- \lambda I)x &=
+  \begin{bmatrix}
+    0 & 1 \\ 0 & 0
+  \end{bmatrix}
+  x = 0 \\
+  x &=
+  \begin{bmatrix}
+    \alpha \\ 0
+  \end{bmatrix} \\
+  p(\lambda) &= (3-\lambda)^{2}=0
+\end{align*}
+
+How would we find $\lambda$ for (real-life) matrices $A$?
+
+Fundamental theorem of algebra: any polynomial of degree $n$ has $n$ roots.
+
+(Abel, 1824) proved that the roots of a polynomial of degree greater than 4 cannot always be expressed by a closed-form involving the coefficients of the polynomial
+
+\begin{enumerate}
+  \item For any matrix $A$ there is an associated polynomial whose roots are the eignevalues of $A$
+  \item For any polynomial there is a matrix whose eigenvalues are the roots of the polynomial
+\end{enumerate}
+
+THIS COULD BE IN THE MIDTERM:
+
+\begin{align*}
+  A &= 
+  \begin{bmatrix}
+    4 & -5 \\ 2 & -3
+  \end{bmatrix} \\
+  \det(A-\lambda I) &= 
+  \begin{vmatrix}
+    4 - \lambda  & -5 \\ 2 & -3 - \lambda
+  \end{vmatrix} \\
+  p(\lambda) &= (4- \lambda)(-3 - \lambda) +10 \\
+  &= (\lambda +  1)(\lambda - 2)\\
+  \lambda_1 = -1 \Rightarrow (A - \lambda I)x &=
+  \begin{bmatrix}
+    5 & -5 \\ 2 & -2
+  \end{bmatrix} x
+  =0 \Rightarrow x = 
+  \begin{bmatrix}
+    1 \\ 1
+  \end{bmatrix} \\
+  \lambda_2 = 2 \Rightarrow (A - \lambda I)x &=
+  \begin{bmatrix}
+    2 & -5 \\ 2 & -5
+  \end{bmatrix} x
+  =0 \Rightarrow x = 
+  \begin{bmatrix}
+    5 \\ 2
+  \end{bmatrix} \\
+\end{align*}
+
+This means we can write $A$ like so:
+
+\begin{align*}
+  A =
+  \underbrace{
+    \begin{bmatrix}
+      1 & 5 \\ 1 & 2
+    \end{bmatrix}
+  }_S
+  \begin{bmatrix}
+    -1 & 0 \\ 0 & 2
+  \end{bmatrix}
+  S^{-1}
+\end{align*}
+
+\paragraph{Important results}
+\begin{enumerate}
+  \item If a matrix $A$ has no repeated (distinct) eignevalues $\lambda_1, \lambda_2, \dots, \lambda_n$
+  \begin{itemize}
+    \item It's eigenvalues are linearly independant
+    \item Any matrix with distinct eigenvalues can be diagonalized
+  \end{itemize}
+  \item The diagonalizing matrix $S$ is not unique
+\end{enumerate}
+
+\begin{align*}
+  \det(A) &= \det(S \Lambda S^{-1})\\
+  &= \det(S)
+    \underbrace{
+      \det(\Lambda)
+    }_{\prod_{i=1}^n \lambda_i}
+    \det(S^{-1})
+\end{align*}
+
+Spectral theorem: ($A = A^T$)
+\begin{enumerate}
+  \item A real symmetric matrix $A$ can be diagonalized
+  \item The eigenvalues of $A$ are real
+\end{enumerate}
+
+\[
+  A = Q \Lambda Q^T
+\]
+
+where $Q$ is orthogonal i.e. $Q^T Q = I$. THe columns of $Q$ are an orthonormal basis of $C(A)$.
+
+\begin{align*}
+  A &= Q \Lambda Q^T \\
+  &=
+  \begin{bmatrix}
+    | & | &  & | \\
+    x_1 & x_2 & \cdots & x_n \\
+    | & | &  & | \\
+  \end{bmatrix} 
+    \begin{bmatrix}
+    | & | &  & | \\
+    \lambda x_1 & \lambda x_2 & \cdots & \lambda x_n \\
+    | & | &  & | \\
+  \end{bmatrix}
+    \begin{bmatrix}
+    - & x_1^T  & - \\
+     & \vdots &  \\
+    - & x_n^T & - \\
+  \end{bmatrix} 
+\end{align*}
+
+Eigenvalue decomposition:
+
+\[
+  A = \lambda_1 x_1 x_1^T + \dots + \lambda_n x_n x_n^T
+\]
+
+Suppose we have $\lambda_i >> \lambda_{i+1}$. We can then approximate:
+
+\[
+  A \approx \lambda_1 x_1 x_1^T + \dots + \lambda_i x_i x_i^T
+\]
+
+Suppose $Ax = \lambda x$, with $\set{\lambda_i}$ the eigenvalues of $A$. What are the eigenvalues of $A^2$?
+
+\[
+  A^2 = A A x = A \lambda x = \lambda A x = \lambda \lambda x = \lambda^2 x
+\]
+
+This implies that the eigenvalues of $A^2$ are $\set{\lambda_i^2}$
+
+\begin{align*}
+  A^2 &= (S \Lambda S^{-1}) (S \Lambda S^{-1})
+  &= S \Lambda I \Lambda S^{-1}
+  &= S \Lambda^{2} S^{-1}
+\end{align*}
+
+Eigenvectors of $A$ are the same eigenvectors of $A^{2}$
+
+Remember: We're trying to find a numerical algorithm to find eigenvectors and eigenvalues for $n > 4$ (characteristic polynomial approach may fail).
+
+\paragraph{Main result} The eigenvalues of $A^k$ are $\set{\lambda_i^k}$ if $\set{\lambda_i}$ are the eigenvalues of $A$.
+
+\begin{align*}
+  A^k &= (S \Lambda S^{-1})(S \Lambda S^{-1}) \cdots (S \Lambda S^{-1})\\
+  A^k &= S \Lambda^{k} S^{-1}
+\end{align*}
+
+\paragraph{Power iteration} Pseudocode:
+\begin{itemize}
+  \item $x_0$ = arbitrary vector
+  \item for $k=1,2,\dots$
+  \begin{itemize}
+    \item $x_k = Ax_{k-1}$
+  \end{itemize}
+  \item end
+  \item $x_k = Ax_{k-1} = AAx_{k-2} = A^{k}x_0$
+\end{itemize}
+
+Assume that a full set of eigenvectors $\set{v_i}$ and a unique eigenvalue $\lambda_1$ of maximum ``modulus''. The pseudocode converges in the long run to the first eigenvector of $A$. Once you've found that value, you can use $QR$ factorization to remove the component along that direciton, and then repeat to find the second largest eigenvalue, etc.
