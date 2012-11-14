@@ -1,0 +1,83 @@
+%!TEX root = ../notes.tex
+\section{November 13 Lecture}
+
+\subsection{Quiz Questions}
+
+\begin{itemize}
+  \item Actual midterm will only differ from practice midterm by changing a few values\footnote{Hi Jimmy.}
+  \item No SVD
+  \item No QR within the context of finding eigenvalues/eigenvectors.
+  \item No need to know IEEE standards for machine precision, max values
+  \item Exam Location: maybe not here
+  \item No calculator needed
+  \item $n \times n$ matrix with $n$ non-zero eigenvalues has rank $n$
+  \item Pseudoinverse was not yet discussed
+\end{itemize}
+
+\subsection{Spectral Theorem}
+Every real symmetric ($A^T=A$) matrix $A$ can be diagonalized by an orthogonal matrix $Q$. (The eigenvalues of $A$ are real in this case). $Q$ contains the orthonormal eigenvalues of $A$.
+
+\[
+  A = Q \Lambda Q^T = \sum_{i=1}^n \lambda_i x_i x_i^T
+\]
+
+\subsection{Singular Value decomposition}
+Any $m \times n$ matrix $A$ can be factored into $A = U \Sigma V^T$ = (orthogonal)(``diagonal'')(orthogonal)
+
+\begin{align*}
+  A A^T (m \times m) &= (U \Sigma V^T) (V \Sigma^T U^T) = U \Sigma \Sigma^T U^T \\
+  A^T A (n \times n) &= (V \Sigma^T U^T) (U \Sigma V^T) = V \Sigma^T \Sigma V^T
+\end{align*}
+
+In the first line, $U$ contains the eigenvectors of $AA^T$ in its columns, and in the second line $V$ contains the eigenvectors of $A^TA$ in its columns. $\Sigma \Sigma^T$ is the eigenvalue matrix for $AA^T$, size $m \times m$ with $\set{r_i^2}$ on the diagonal.
+
+$A A^T$ is a covariance matrix. If one finds the eigenvector that corresponds with the largest eigenvalue, we've found the direction of the largest variance (?).
+
+\begin{align*}
+  A v &= U \Sigma \Rightarrow
+  A
+  \begin{bmatrix}
+    | & & | \\
+    v_1 & \cdots & v_n \\
+    | & & | \\
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    | & & | \\
+    u_1 & \cdots & u_m \\
+    | & & | \\
+  \end{bmatrix}
+  \begin{bmatrix}
+    \sigma_1 \\
+    &\sigma_2 \\
+    0& &\sigma_r \\
+    & & & 0 \\
+    & & & & \ddots
+  \end{bmatrix}
+\end{align*}
+
+\paragraph{Theorem} $U$ and $V$ produce an orthonormal basis for all four fundamental spaces.
+\begin{enumerate}
+  \item First $r$ columns of $U$: column space of $A$
+  \item First $m-r$ columns of $U$: left null space of $A$
+  \item First $r$ columns of $V$: row space of $A$
+  \item Last $n-r$ columns of $U$: null space of $A$
+\end{enumerate}
+
+\section{Midterm}
+
+\begin{itemize}
+  \item $LU$ factorization (multipliers $\rightarrow L$ with (-) sign)
+  \item $LU \rightarrow$ solve $Ax = b$
+  \item Finite precision (machine precision)
+  \begin{itemize}
+    \item relevance $\Rightarrow$ to what extent can we identify matrices that are singular? Gaussian elimination $\Rightarrow$ how ill-conditioned
+  \end{itemize}
+  \item Computer 4 fundamental spaces
+  \item Particular solution based on if on column space
+  \item Least squares using $QR$, normal equations
+  \item Fundamental theorem of linear algebra
+  \item Householder
+  \item Computing eigenvectors and eigenvalues
+  \item How to solve least squares solution using calculus (setting derivative equal to 0) or some other appraoch involving something perpendicular to something else (??)
+\end{itemize}

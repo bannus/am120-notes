@@ -1,0 +1,83 @@
+%!TEX root = ../notes.tex
+\section{November 8 Lecture}
+
+Last class, we show that the eigenvaluse of $A^k$ are $\set{\lambda_i^k}$.
+
+Interesting fact: the eigenvalues of $A^{-1}$ are $\set{1/\lambda_i}$.
+
+Assuming $A$ has a full set of eigenvectors $\set{v_i}$ and a unique $\lambda_1$ of maximum modulus with corresponding eigenvectors $v_1$, then the power iteration is defined as:
+
+\begin{itemize}
+  \item $x_0$ = arbitrary vector
+  \item for $k=1,2,\dots$
+  \begin{itemize}
+    \item $x_k = Ax_{k-1}$
+    \item $\lambda_k = {(x_k)_i \over (x_{k-1})_i}$
+  \end{itemize}
+  \item end
+\end{itemize}
+
+\begin{align*}
+  x_1 &= Ax_0 \\
+  x_2 &=Ax_1 = A^2 x_0 \\
+  &\vdots \\
+  x_k &= Ax_{k-1} = A^k x_0
+\end{align*}
+
+Any vector in $\bbR$ can be decomposed as a linear combination of a basis:
+
+\begin{align*}
+  x_0 &= \sum_{j-1}^n \alpha_j v_j \\
+  x_k &= A^k \sum_{j=1}^n \alpha_j v_j
+\end{align*}
+
+According to the power iteration. Interesting fact about this sum is that since $\set{v_j}$ are eigenvectors, it can expressed as:
+
+\begin{align*}
+  x_k &= \sum_{j=1}^n \alpha_j A^k v_j \\
+      &= \sum_{j=1}^n \alpha_j \lambda_j^k v_j \\
+      &= \lambda_1^k \left(\alpha_1 v_1 + \sum_{j=2}^n a_j ({\lambda_j \over \lambda_1})^k v_j \right)\\
+\end{align*}
+
+If we have $\abs{\lambda_j \over \lambda_1} < 1$, then ${\lambda_j \over \lambda_1}^k \rightarrow 0$ as $k \rightarrow \infty$. Therefore:
+
+\[
+  x_k \rightarrow \beta v_1 \text{ as } k \rightarrow \infty
+\]
+
+Limitations:
+\begin{enumerate}
+  \item if $x_0$ is such that $\alpha_1 = 0 \Rightarrow x_k$ will not converge to $v_1$
+  \item Convergence is slow
+  \item Method may overflow
+\end{enumerate}
+
+Aside: this power iteration is the method used to find steady state of Markov chain.
+
+Once you have found $\lambda_1, v_1$, the matrix $A - \lambda_1 v_1 v_1^T$ has $0, \lambda_2, \dots, \lambda_n$ as its eigenvalues.
+
+\paragraph{The $QR$ method} (Spectral Theorem) If $A$ is symmetric and real, $A$ can be diagonalized by an orthogonal matrix $Q$. The columns of of $Q$ contain the eigenvectors of $A$.
+
+How can we generalize this eigenvalue decomposition?
+
+Three things to remember about this class:
+
+\begin{enumerate}
+  \item $LU$ factorization
+  \item $QR$ factorization
+  \item $UDV$ factorization (SVD)
+\end{enumerate}
+
+\paragraph{Generalization of Eigenvalue Decomposition}
+
+A general $A_{m \times n}$ has no determinant defined, so it has no characteristic polynomial, and no eigenvalues.
+
+We can decompose into $A = U_{m \times m} \Sigma_{m \times n} V^T_{n \times n}$ where $U$ and $V^T$ are orthogonal, and $\Sigma$ is diagonal.
+
+If we have $AA^T$, the columns of this product are linear combinations of $A$. The columns space of this product are embedded in the columns space of $A$. It could be smaller in general, but since it's $A^T$, and assuming $A$ is full column rank, $C(AA^T) = C(A)$. This matrix $A A^T$ is symmetric, as is $n \times n$ matrix $A^T A$.
+
+\begin{align*}
+  A A^T &= (U \Sigma V^T) (V \Sigma^T U^T) \\
+  &= U \Sigma \Sigma^T U^T \\
+  &= Q \Lambda Q^T
+\end{align*}
