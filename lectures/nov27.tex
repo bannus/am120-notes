@@ -1,0 +1,43 @@
+%!TEX root = ../notes.tex
+\section{November 27 Lecture}
+
+\paragraph{AM120 Fair} Format: 2 sessions (10am-12pm, 2pm-4pm), about 20 teams each. More details to come.
+
+\subsection{Spectral Theorem}
+Every real symmetric matrix ($A = A^T$) has real eigenvalues and can be diagonalized by an orthogonal matrix $Q$. The columns of $Q$ contain the orthonormal eigenvectors.
+
+\[
+  A = Q \Lambda Q^T
+\]
+
+Say we have $A (m \times n)$ matrix. Then we can write:
+
+\begin{align*}
+  A A^T &= U \Sigma V^T V \Sigma U^T = U \Sigma^2 U^T \\
+  A^T A &= V \Sigma U^T U \Sigma V^T = V \Sigma^2 V^T
+\end{align*}
+
+(spectral theorem)
+
+\[
+  A = U \Sigma V^T
+\]
+
+\begin{tabular}{ll}
+  $U$ & orthogonal $(m \times m)$ \\
+  $\Sigma$ & diagonal (where it can be) $(m \times n)$ \\
+  & diagonal elements are the square root of the eigenvalues of $\Sigma^2$\\
+  $V$ & orthogonal matrix $(n \times n)$
+\end{tabular}
+
+
+\begin{align*}
+  A &= Q \Lambda Q^T \\
+  A &= \lambda_1x_1x_1^T + \lambda_2x_2x_2^T + \dots + \lambda_nx_nx_n^T
+\end{align*}
+
+Ano orthonormal matrix satisfies $Q Q^T = I$. A unitary matrix satisfies $U U^* = I$.
+
+\subsection{Principal Component Analysis}
+
+\paragraph{Eigenfaces} Using pixels from images, we create a vector representing each image.
