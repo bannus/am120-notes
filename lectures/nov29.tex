@@ -1,0 +1,276 @@
+%!TEX root = ../notes.tex
+\section{November 1 Lecture}
+
+\subsection{Differential equation models}
+
+\paragraph{Predator-prey model}
+
+\begin{align*}
+  {dx \over dt} &= x (\alpha - \beta y) \\
+  {dy \over dt} &= -y (\gamma - \delta x)
+\end{align*}
+
+Stability of this system is studied using the Jacobian matrix
+
+\paragraph{SIR Model}
+
+\begin{align*}
+  {dS \over dt} &= -\beta S I\\
+  {dI \over dt} &= \beta SI - \gamma I
+  {dR \over dt} &= \gamma I\\
+\end{align*}
+
+Where $\beta$ is the rate of infection and $\gamma$ is the rate of recovery.
+
+\paragraph{1 dimensional}
+
+\[
+  \begin{matrix}
+    {du \over dt} = au & & u(t=0) = u_0
+  \end{matrix}
+\]
+
+If $u=\beta e^{at} \implies {du \over dt} = \beta a e^{at} = au$. Then $u(t=0) = \beta e^0 = \beta$. Solution is $u = u_0 e^{at}$.
+
+\paragraph{Stability} If $a$ is positive, it grows exponentially. If $a=0$, then the function is constant. If $a$ is negative, it decays to 0. (Asymptotic analysis)
+
+\paragraph{2 dimensional}
+
+\[
+  \begin{matrix}
+    {dv \over dt} = 4v - 5w & v(t=0) = 8
+    {dw \over dt} = 2v - 3w & w(t=0) = 5
+  \end{matrix}
+\]
+
+\begin{align*}
+  {d \over dt} \begin{bmatrix}
+    v \\ w
+  \end{bmatrix}
+  &=
+  \overbrace{
+    \begin{bmatrix}
+      4 & -5 \\
+      2 & -3
+    \end{bmatrix}
+  }^A
+  \begin{bmatrix}
+    v \\ w
+  \end{bmatrix} \\
+  {du \over dt} &= Au
+\end{align*}
+
+So we write:
+
+\[
+  \begin{matrix}
+    v(t) = e^{\lambda t} y \\
+    u(t) = e^{\lambda t} z
+  \end{matrix}
+   = x e^{\lambda t} \text{ for } x = 
+  \begin{bmatrix}
+    y \\ z
+  \end{bmatrix}
+\]
+
+If this is true, then:
+
+\begin{align*}
+  {dv \over dt} &= y \cancel{e^{\lambda t}} = 4 \cancel{e^{\lambda t}}y - 5 \cancel{e^{\lambda t}} z \\
+  {dw \over dt} &= z \cancel{e^{\lambda t}} = 2\cancel{e^{\lambda t}}y - 3 \cancel{e^{\lambda t}} z \\
+\end{align*}
+
+So we have:
+
+\begin{align*}
+  y \lambda &= 4y - 5z \\
+  z \lambda &= 2y - 3z
+\end{align*}
+
+Equivalently:
+
+\[
+  Ax = \lambda x
+\]
+
+Eigenvalues and eigenvectors!
+
+\[
+  \begin{matrix}
+    \lambda_1 = -1 & x_1 = \begin{bmatrix}
+      1 \\ 1
+    \end{bmatrix} \\
+    \lambda_2 = 2 & x_2 = \begin{bmatrix}
+      5 \\ 2
+    \end{bmatrix}
+  \end{matrix}
+\]
+
+\[
+  \begin{bmatrix}
+    v(t) \\ w(t)
+  \end{bmatrix}
+  =
+  c_1 \begin{bmatrix}
+    1 \\ 1
+  \end{bmatrix}
+  e^{-t}
+  +
+  c_2
+  \begin{bmatrix}
+    5 \\ 2
+  \end{bmatrix}
+  e^{2t}
+\]
+
+Now the question is do all solutions look like this? Yes. What is the value of $c_1$ and $c_2$? We evaluate at 0:
+
+\[
+  \begin{bmatrix}
+    v(0) \\ w(0)
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    8 \\ 5
+  \end{bmatrix}
+  =
+  c_1 \begin{bmatrix}
+    1 \\ 1
+  \end{bmatrix}
+  +
+  c_2
+  \begin{bmatrix}
+    5 \\ 2
+  \end{bmatrix}
+\]
+
+So we have:
+
+\begin{align*}
+  \begin{bmatrix}
+    1 & 5 \\ 1 & 2
+  \end{bmatrix}
+  \begin{bmatrix}
+    c_1 \\ c_2
+  \end{bmatrix}
+  &=
+  \begin{bmatrix}
+    8 \\ 5
+  \end{bmatrix}\\
+  \begin{bmatrix}
+    v(t) \\ w(t)
+  \end{bmatrix}
+  &=
+  \underbrace{
+    \begin{bmatrix}
+      1 & 5 \\ 1 & 2
+    \end{bmatrix}
+  }_S
+  \begin{bmatrix}
+    e^{-t} & 0 \\ 0 & e^{2t}
+  \end{bmatrix}
+  S^{-1}
+  \begin{bmatrix}
+    v(0) \\ w(0)
+  \end{bmatrix} \\
+  \begin{bmatrix}
+    c_1 \\ c_2
+  \end{bmatrix}
+  &=
+  S^{-1}
+  \begin{bmatrix}
+    v(0) \\ w(0)
+  \end{bmatrix}
+\end{align*}
+
+\paragraph{Theorem} If $A$ can be diagonalized ($A = S \Lambda S^{-1}$), then the differential equation
+
+\[
+  \begin{matrix}
+    {du \over dt} = Au & \text for & u(0) = u_0
+  \end{matrix}
+\]
+
+has the solution $ u(t) = e^{At} u_0 $.
+
+\begin{itemize}
+  \item In 1-D: $e^x = 1 + x + {x^2 \over 2!} + {x^3 \over 3!} + \dots$
+  \item In n-D: $e^At = I + At + {(At)^2 \over 2!} + {(At)^3 \over 3!} + \dots$
+\end{itemize}
+
+Then, if $A = S \Lambda S^{-1}$, $A^n = S \Lambda^n S^{-1}$:
+
+\begin{align*}
+  e^{At} &= I + S \Lambda S^{-1} t + S \Lambda^2 S^{-1} t^2 + \dots \\
+  e^{At} &= S(I + \Lambda t + \Lambda^2 t^2 + \dots) S^{-1} = S e^{\Lambda t} S^{-1} \\
+\end{align*}
+
+Rewriting, the general solution to any linear solution
+
+\[
+  u(t) = e^{At} u_0 = S e^{\Lambda t} S^{-1} u_0
+\]
+
+\[
+  =
+  \underbrace{
+    \begin{bmatrix}
+      | & | & & |\\
+      x_1 & x_2 & \cdots & x_n\\
+      | & | & & | 
+    \end{bmatrix}
+  }_S
+  \begin{bmatrix}
+    e^{\lambda_1 t}
+    &e^{\lambda_n t}
+    & & \ddots
+    & & & e^{\lambda_n t}
+  \end{bmatrix}
+  S^{-1} u_0
+\]
+
+Solve equation
+
+\[
+  a_n {d^n y \over d t^n} + a_{n-1} {d^{n-1} y \over d t^{n-1}} + \dots + a_0 y = 0
+\]
+
+With $n-1$ initial conditions.
+
+Can be transformed into a system of linear equations of first order with change of variables:
+
+\begin{align*}
+  x_1(t) &= y(t) \\
+  x_2(t) &= {dy \over dt} \\
+  &\vdots\\
+  x_n(t) &=  {d^{n-1}y \over dt^{n-1}} \\
+\end{align*}
+
+This results in:
+
+\begin{align*}
+  {d x_1 \over dt} &= x_2 (= {dy \over dt}) \\
+  {d x_2 \over dt} &= x_3 \\
+  &\vdots \\
+  {d x_n \over dt} &= {d^n y \over dt^n} \\
+\end{align*}
+
+In other words:
+
+\[
+  d
+  \begin{bmatrix}
+    x_1 \\ x_2 \\ \vdots \\ x_n
+  \end{bmatrix}
+  =
+  \begin{bmatrix}
+    0 & 1 & 0 & 0 & \dots & 0\\
+    0 & 1 & 1 & 0 & \dots & 0\\
+    0 & 1 & 0 & 1 & \dots & 0\\
+    \\
+    a_0 \over a_n & a_1 \over a_n & \dots & & & a_{n-1} \over a_n & 
+  \end{bmatrix}
+  \begin{bmatrix}
+    x_1 \\ x_2 \\ \vdots \\ x_n
+  \end{bmatrix}
+\]
